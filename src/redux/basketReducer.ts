@@ -50,44 +50,40 @@ export const basketReducer = (state = initialState, action: ActionsType): Initia
             }
         }
         case "ADD_PRODUCT_BY_BASKET": {
-            const updateProduct = state.basket.find( i => i.id === action.id)
-            if (!updateProduct) {
-                return state
-            }
-            if (!updateProduct.count) {
-                return state
-            }
-            updateProduct.count = updateProduct.count + 1
+            let price = 0
             return {
-                ...state, basket: [...state.basket.filter(i => i.id !== action.id), updateProduct],
-                totalPrice: state.totalPrice + updateProduct.price,
+                ...state, basket: [...state.basket.map(item => {
+                    if (item.id === action.id && item.count){
+                        item.count= item.count +1
+                        price = item.price
+                        return item
+                    }
+                    return item
+                })],
+                totalPrice: state.totalPrice + price,
                 totalProductCount: state.totalProductCount + 1
             }
         }
         case "REMOVE_PRODUCT_BY_BASKET": {
-            const updateProduct = state.basket.find( i => i.id === action.id)
-            if (!updateProduct) {
-                return state
-            }
-            if (!updateProduct.count) {
-                return state
-            }
-           updateProduct.count = updateProduct.count -1
-            if (updateProduct.count === 0){
+            if (state.basket.find(item => item.id === action.id)?.count === 0){
                 return {
-                    ...state, basket: [...state.basket.filter(i => i.id !== action.id)],
-                    totalPrice: state.totalPrice - updateProduct.price,
-                    totalProductCount: state.totalProductCount -1
+                    ...state, basket: [...state.basket.filter(i => i.id !== action.id)]
                 }
             }
+            let price = 0;
             return {
-                ...state, basket: [...state.basket.filter(i => i.id !== action.id), updateProduct],
-                totalPrice: state.totalPrice - updateProduct.price,
+                ...state, basket: [...state.basket.map(item => {
+                    if (item.id === action.id && item.count){
+                        item.count = item.count -1
+                        price = item.price
+                        return item
+                    }
+                    return item
+                })],
+                totalPrice: state.totalPrice - price,
                 totalProductCount: state.totalProductCount -1
             }
-
         }
-
         default:
             return state
     }
