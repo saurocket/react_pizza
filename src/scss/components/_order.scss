@@ -1,0 +1,30 @@
+.order-list{
+
+  margin: 20px 0;
+  li{
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h3{
+      min-width: 200px;
+    }
+    p{
+      min-width: 150px;
+    }
+  }
+}
+.order-header{
+  text-align: center;
+}
+.order_summary{
+  margin: 20px 0;
+  padding-left: 20px;
+  p{
+    margin-bottom: 5px;
+  }
+}
+.order-buttons{
+  display: flex;
+  justify-content: space-around;
+}
